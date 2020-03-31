@@ -8,7 +8,7 @@ from typing import Any, Dict, List
 
 import requests
 
-import spotifier.status_codes as S
+import spotifier.status_codes as C
 from spotifier.oauth import SpotifyAuthorizationCode
 
 AnyDict = Dict[str, Any]
@@ -51,9 +51,9 @@ class Spotify:
 
         r = requests.delete(url, data=data, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -77,9 +77,9 @@ class Spotify:
 
         r = requests.delete(url, data=data, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -103,9 +103,9 @@ class Spotify:
 
         r = requests.put(url, data=data, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -129,9 +129,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -155,9 +155,9 @@ class Spotify:
 
         r = requests.put(url, data=data, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_CREATED:
+        if r.status_code != C.RESPONSE_CREATED:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -185,9 +185,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -211,9 +211,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -241,9 +241,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -268,9 +268,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -296,9 +296,9 @@ class Spotify:
 
         r = requests.delete(url, data=data, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -322,9 +322,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -348,9 +348,9 @@ class Spotify:
 
         r = requests.put(url, data=data, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -374,9 +374,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -402,9 +402,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -433,9 +433,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -460,9 +460,9 @@ class Spotify:
 
         r = requests.put(url, data=data, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_CREATED:
+        if r.status_code != C.RESPONSE_CREATED:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -488,9 +488,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -527,9 +527,9 @@ class Spotify:
 
         r = requests.put(url, data=data, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -551,9 +551,9 @@ class Spotify:
 
         r = requests.put(url, files=files, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_ACCEPTED:
+        if r.status_code != C.RESPONSE_ACCEPTED:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -584,9 +584,9 @@ class Spotify:
 
         r = requests.put(url, data=data, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -612,9 +612,9 @@ class Spotify:
 
         r = requests.post(url, data=data, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_CREATED:
+        if r.status_code != C.RESPONSE_CREATED:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -654,9 +654,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -676,9 +676,9 @@ class Spotify:
 
         r = requests.get(url, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -704,9 +704,9 @@ class Spotify:
 
         r = requests.delete(url, data=data, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -732,9 +732,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -764,9 +764,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -798,9 +798,9 @@ class Spotify:
 
         r = requests.post(url, data=data, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r not in (S.RESPONSE_OK, S.RESPONSE_CREATED):
+        if r not in (C.RESPONSE_OK, C.RESPONSE_CREATED):
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -826,9 +826,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -852,9 +852,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -883,9 +883,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -911,9 +911,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -933,9 +933,9 @@ class Spotify:
 
         r = requests.get(url, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -957,9 +957,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -983,9 +983,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1009,9 +1009,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1035,9 +1035,9 @@ class Spotify:
 
         r = requests.post(url, data=data, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_NO_CONTENT:
+        if r.status_code != C.RESPONSE_NO_CONTENT:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1063,9 +1063,9 @@ class Spotify:
 
         r = requests.put(url, data=data, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_NO_CONTENT:
+        if r.status_code != C.RESPONSE_NO_CONTENT:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1091,9 +1091,9 @@ class Spotify:
 
         r = requests.put(url, data=data, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_NO_CONTENT:
+        if r.status_code != C.RESPONSE_NO_CONTENT:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1119,9 +1119,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1148,9 +1148,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1176,9 +1176,9 @@ class Spotify:
 
         r = requests.put(url, data=data, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_NO_CONTENT:
+        if r.status_code != C.RESPONSE_NO_CONTENT:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1202,9 +1202,9 @@ class Spotify:
 
         r = requests.post(url, data=data, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_NO_CONTENT:
+        if r.status_code != C.RESPONSE_NO_CONTENT:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1245,9 +1245,9 @@ class Spotify:
 
         r = requests.put(url, params=params, data=data, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_NO_CONTENT:
+        if r.status_code != C.RESPONSE_NO_CONTENT:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1271,9 +1271,9 @@ class Spotify:
 
         r = requests.put(url, data=data, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_NO_CONTENT:
+        if r.status_code != C.RESPONSE_NO_CONTENT:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1299,9 +1299,9 @@ class Spotify:
 
         r = requests.put(url, data=data, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_NO_CONTENT:
+        if r.status_code != C.RESPONSE_NO_CONTENT:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1329,9 +1329,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_NO_CONTENT:
+        if r.status_code != C.RESPONSE_NO_CONTENT:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1351,9 +1351,9 @@ class Spotify:
 
         r = requests.get(url, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1379,9 +1379,9 @@ class Spotify:
 
         r = requests.put(url, data=data, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_NO_CONTENT:
+        if r.status_code != C.RESPONSE_NO_CONTENT:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1407,9 +1407,9 @@ class Spotify:
 
         r = requests.post(url, data=data, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_NO_CONTENT:
+        if r.status_code != C.RESPONSE_NO_CONTENT:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1439,9 +1439,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1467,9 +1467,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1497,9 +1497,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1542,9 +1542,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1564,9 +1564,9 @@ class Spotify:
 
         r = requests.get(url, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1594,9 +1594,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1630,9 +1630,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1652,9 +1652,9 @@ class Spotify:
 
         r = requests.get(url, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1673,9 +1673,9 @@ class Spotify:
         }
 
         r = requests.get(url, headers=headers)
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1700,9 +1700,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1726,9 +1726,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1753,9 +1753,9 @@ class Spotify:
 
         r = requests.put(url, data=data, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_NO_CONTENT:
+        if r.status_code != C.RESPONSE_NO_CONTENT:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1779,9 +1779,9 @@ class Spotify:
 
         r = requests.put(url, data=data, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1809,9 +1809,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1836,9 +1836,9 @@ class Spotify:
 
         r = requests.delete(url, data=data, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_NO_CONTENT:
+        if r.status_code != C.RESPONSE_NO_CONTENT:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1858,9 +1858,9 @@ class Spotify:
 
         r = requests.delete(url, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1884,9 +1884,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1906,9 +1906,9 @@ class Spotify:
 
         r = requests.get(url, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1941,9 +1941,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1967,9 +1967,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -1990,9 +1990,9 @@ class Spotify:
 
         r = requests.get(url, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -2028,9 +2028,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -2054,9 +2054,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -2082,9 +2082,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -2110,9 +2110,9 @@ class Spotify:
 
         r = requests.get(url, params=params, headers=headers)
 
-        if r.status_code == S.RESPONSE_UNAUTHORIZED:
+        if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
-        if r.status_code != S.RESPONSE_OK:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
