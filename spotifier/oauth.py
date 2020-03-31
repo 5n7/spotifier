@@ -7,7 +7,7 @@ Reference:
 import base64
 import urllib.parse
 import warnings
-from typing import List, Optional
+from typing import List, Optional, Set
 
 import requests
 
@@ -18,6 +18,10 @@ except ImportError:
 
 
 class SpotifyOAuthError(Exception):
+    pass
+
+
+class SpotifyScopeError(Exception):
     pass
 
 
@@ -92,6 +96,10 @@ class SpotifyAuthorizationCode:
     @property
     def token(self) -> Optional[Token]:
         return self._token
+
+    @property
+    def scopes(self) -> Optional[List[str]]:
+        return self._scopes
 
     def get_authorize_url(self) -> str:
         """Request user to approve app to access user information.
@@ -198,6 +206,21 @@ class SpotifyAuthorizationCode:
         self._token.update(refreshed_token)
 
         return self._token
+
+    @staticmethod
+    def is_scopes_subset(having_scopes: Optional[List[str]], required_scopes: Optional[List[str]]) -> bool:
+        """Check the current oauth meets required scopes.
+
+        Args:
+            having_scopes (Optional[List[str]]): Current scopes
+            required_scopes (Optional[List[str]]): Required scopes
+
+        Returns:
+            bool: [description]
+        """
+        having_scopes_set: Set[str] = set(having_scopes) if having_scopes is not None else set()
+        required_scopes_set: Set[str] = set(required_scopes) if required_scopes is not None else set()
+        return having_scopes_set >= required_scopes_set
 
     @staticmethod
     def _make_authorization_headers(client_id: str, client_secret: str) -> AuthorizationHeaders:

@@ -8,8 +8,9 @@ from typing import Any, Dict, List
 
 import requests
 
+import spotifier.scopes as S
 import spotifier.status_codes as C
-from spotifier.oauth import SpotifyAuthorizationCode
+from spotifier.oauth import SpotifyAuthorizationCode, SpotifyScopeError
 
 AnyDict = Dict[str, Any]
 
@@ -38,6 +39,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-remove-albums-user
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_LIBRARY_MODIFY]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/albums"
 
         data: AnyDict = {
@@ -64,6 +68,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-remove-tracks-user
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_LIBRARY_MODIFY]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/tracks"
 
         data: AnyDict = {
@@ -90,6 +97,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-save-tracks-user
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_LIBRARY_MODIFY]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/tracks"
 
         data: AnyDict = {
@@ -116,6 +126,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-check-users-saved-albums
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_LIBRARY_READ]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/albums/contains"
 
         params: AnyDict = {
@@ -142,6 +155,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-save-albums-user
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_LIBRARY_MODIFY]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/albums"
 
         data: AnyDict = {
@@ -168,6 +184,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-users-saved-tracks
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_LIBRARY_READ]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/tracks"
 
         params: AnyDict = {}
@@ -198,6 +217,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-check-users-saved-tracks
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_LIBRARY_READ]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/tracks/contains"
 
         params: AnyDict = {
@@ -224,6 +246,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-users-saved-albums
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_LIBRARY_READ]):
+            raise SpotifyScopeError
+
         url = "GET https://api.spotify.com/v1/me/albums"
 
         params: AnyDict = {}
@@ -255,6 +280,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-users-saved-shows
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_LIBRARY_READ]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/shows"
 
         params: AnyDict = {
@@ -281,6 +309,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-remove-shows-user
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_LIBRARY_MODIFY]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/shows"
 
         data: AnyDict = {
@@ -309,6 +340,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-check-users-saved-shows
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_LIBRARY_READ]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/shows/contains"
 
         params: AnyDict = {
@@ -335,6 +369,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-save-shows-user
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_LIBRARY_MODIFY]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/shows"
 
         data: AnyDict = {
@@ -447,6 +484,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-replace-playlists-tracks
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.PLAYLIST_MODIFY_PUBLIC]):
+            raise SpotifyScopeError
+
         url = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
 
         data: AnyDict = {}
@@ -473,6 +513,11 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-list-users-playlists
         """
+        if not self._oauth.is_scopes_subset(
+            self._oauth.scopes, [S.PLAYLIST_READ_PRIVATE]
+        ) or self._oauth.is_scopes_subset(self._oauth.scopes, [S.PLAYLIST_READ_COLLABORATIVE]):
+            raise SpotifyScopeError
+
         url = f"https://api.spotify.com/v1/users/{user_id}/playlists"
 
         params: AnyDict = {}
@@ -508,6 +553,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-change-playlist-details
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.PLAYLIST_MODIFY_PUBLIC]):
+            raise SpotifyScopeError
+
         url = f"https://api.spotify.com/v1/playlists/{playlist_id}"
 
         data: AnyDict = {}
@@ -540,6 +588,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-upload-custom-playlist-cover
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.UGC_IMAGE_UPLOAD]):
+            raise SpotifyScopeError
+
         url = f"https://api.spotify.com/v1/playlists/{playlist_id}/images"
 
         files = {"file": open(image_path, "rb")}
@@ -566,6 +617,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-reorder-playlists-tracks
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.PLAYLIST_MODIFY_PUBLIC]):
+            raise SpotifyScopeError
+
         url = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
 
         data: AnyDict = {
@@ -597,6 +651,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-add-tracks-to-playlist
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.PLAYLIST_MODIFY_PUBLIC]):
+            raise SpotifyScopeError
+
         url = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
 
         data: AnyDict = {}
@@ -689,6 +746,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-remove-tracks-playlist
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.PLAYLIST_MODIFY_PUBLIC]):
+            raise SpotifyScopeError
+
         url = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
 
         data: AnyDict = {
@@ -717,6 +777,11 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-a-list-of-current-users-playlists
         """
+        if not self._oauth.is_scopes_subset(
+            self._oauth.scopes, [S.PLAYLIST_READ_PRIVATE]
+        ) or self._oauth.is_scopes_subset(self._oauth.scopes, [S.PLAYLIST_READ_COLLABORATIVE]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/playlists"
 
         params: AnyDict = {}
@@ -779,6 +844,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-create-playlist
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.PLAYLIST_MODIFY_PUBLIC]):
+            raise SpotifyScopeError
+
         url = f"https://api.spotify.com/v1/users/{user_id}/playlists"
 
         data: AnyDict = {
@@ -1022,6 +1090,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-skip-users-playback-to-next-track
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_MODIFY_PLAYBACK_STATE]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/player/next"
 
         data: AnyDict = {}
@@ -1048,6 +1119,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-set-repeat-mode-on-users-playback
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_MODIFY_PLAYBACK_STATE]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/player/repeat"
 
         data: AnyDict = {
@@ -1076,6 +1150,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-transfer-a-users-playback
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_MODIFY_PLAYBACK_STATE]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/player"
 
         data: AnyDict = {
@@ -1104,6 +1181,11 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-the-users-currently-playing-track
         """
+        if not self._oauth.is_scopes_subset(
+            self._oauth.scopes, [S.USER_READ_CURRENTLY_PLAYING]
+        ) or self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_READ_PLAYBACK_STATE]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/player/currently-playing"
 
         params: AnyDict = {
@@ -1133,6 +1215,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-information-about-the-users-current-playback
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_READ_PLAYBACK_STATE]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/player"
 
         params: AnyDict = {}
@@ -1161,6 +1246,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-seek-to-position-in-currently-playing-track
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_MODIFY_PLAYBACK_STATE]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/player/seek"
 
         data: AnyDict = {
@@ -1189,6 +1277,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-skip-users-playback-to-previous-track
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_MODIFY_PLAYBACK_STATE]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/player/previous"
 
         data: AnyDict = {}
@@ -1222,6 +1313,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-start-a-users-playback
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_MODIFY_PLAYBACK_STATE]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/player/queue"
 
         params: AnyDict = {}
@@ -1258,6 +1352,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-pause-a-users-playback
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_MODIFY_PLAYBACK_STATE]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/player/pause"
 
         data: AnyDict = {}
@@ -1284,6 +1381,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-set-volume-for-users-playback
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_MODIFY_PLAYBACK_STATE]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/player/volume"
 
         data: AnyDict = {
@@ -1312,6 +1412,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-recently-played
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_READ_RECENTLY_PLAYED]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/player/recently-played"
 
         params: AnyDict = {}
@@ -1342,6 +1445,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-a-users-available-devices
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_READ_PLAYBACK_STATE]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/player/devices"
 
         headers = {
@@ -1364,6 +1470,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-toggle-shuffle-for-users-playback
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_MODIFY_PLAYBACK_STATE]):
+            raise SpotifyScopeError
+
         url = f"https://api.spotify.com/v1/me/player/shuffle"
 
         data: AnyDict = {
@@ -1392,6 +1501,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-add-to-queue
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_MODIFY_PLAYBACK_STATE]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/player/queue"
 
         data: AnyDict = {
@@ -1686,6 +1798,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-check-current-user-follows
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_FOLLOW_READ]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/following/contains"
 
         params: AnyDict = {
@@ -1739,6 +1854,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-follow-artists-users
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_FOLLOW_MODIFY]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/following"
 
         data: AnyDict = {
@@ -1766,6 +1884,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-follow-playlist
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_FOLLOW_MODIFY]):
+            raise SpotifyScopeError
+
         url = f"https://api.spotify.com/v1/playlists/{playlist_id}/followers"
 
         data: AnyDict = {}
@@ -1792,6 +1913,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-followed
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_FOLLOW_MODIFY, S.USER_FOLLOW_READ]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/following"
 
         params: AnyDict = {
@@ -1822,6 +1946,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-unfollow-artists-users
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_FOLLOW_MODIFY]):
+            raise SpotifyScopeError
+
         url = "https://api.spotify.com/v1/me/following"
 
         data: AnyDict = {
@@ -1849,6 +1976,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-unfollow-playlist
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.PLAYLIST_MODIFY_PUBLIC]):
+            raise SpotifyScopeError
+
         url = f"https://api.spotify.com/v1/playlists/{playlist_id}/followers"
 
         headers = {
@@ -2095,6 +2225,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-users-top-artists-and-tracks
         """
+        if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_TOP_READ]):
+            raise SpotifyScopeError
+
         url = f"https://api.spotify.com/v1/me/top/{type}"
 
         params: AnyDict = {}
