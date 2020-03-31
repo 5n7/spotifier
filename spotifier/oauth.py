@@ -97,6 +97,10 @@ class SpotifyAuthorizationCode:
     def token(self) -> Optional[Token]:
         return self._token
 
+    @token.setter
+    def token(self, token: Token):
+        self._token = token
+
     @property
     def scopes(self) -> Optional[List[str]]:
         return self._scopes
