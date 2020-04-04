@@ -11,6 +11,8 @@ from typing import List, Optional, Set
 
 import requests
 
+import spotifier.status_codes as C
+
 try:
     from typing import TypedDict  # type: ignore
 except ImportError:
@@ -157,7 +159,7 @@ class SpotifyAuthorizationCode:
             code (str): Authorization code provided by 'parse_response_code()'
 
         Raises:
-            SpotifyOAuthError: When request returns other than 200
+            SpotifyOAuthError: When request returns other than 200 (RESPONSE_OK)
 
         Returns:
             Token: Authorized token
@@ -172,7 +174,7 @@ class SpotifyAuthorizationCode:
 
         r = requests.post(self.OAUTH_TOKEN_ENDPOINT, data=payload, headers=headers)
 
-        if r.status_code != 200:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyOAuthError
 
         self._token = Token(**r.json())  # type: ignore
@@ -186,7 +188,7 @@ class SpotifyAuthorizationCode:
 
         Raises:
             ValueError: When token has not been set yet
-            SpotifyOAuthError: When request returns other than 200
+            SpotifyOAuthError: When request returns other than 200 (RESPONSE OK)
 
         Returns:
             Token: Refreshed token
@@ -203,7 +205,7 @@ class SpotifyAuthorizationCode:
 
         r = requests.post(self.OAUTH_TOKEN_ENDPOINT, data=payload, headers=headers)
 
-        if r.status_code != 200:
+        if r.status_code != C.RESPONSE_OK:
             raise SpotifyOAuthError
 
         refreshed_token = RefreshedToken(**r.json())  # type: ignore
