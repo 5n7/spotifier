@@ -20,13 +20,14 @@ class SpotifyResponseError(Exception):
 
 
 class Spotify:
-    def __init__(self, oauth: SpotifyAuthorizationCode):
+    def __init__(self, oauth: SpotifyAuthorizationCode, auto_refresh: bool = True):
         """Spotify client.
 
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta
         """
         self._oauth = oauth
+        self._auto_refresh = auto_refresh
 
         if self._oauth.token is None:
             raise ValueError("Authenticate first.")
@@ -54,6 +55,8 @@ class Spotify:
         r = requests.delete(url, data=data, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.remove_albums_user(ids)
         if r.status_code != C.RESPONSE_OK:
@@ -84,6 +87,8 @@ class Spotify:
         r = requests.delete(url, data=data, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.remove_tracks_user(ids)
         if r.status_code != C.RESPONSE_OK:
@@ -114,6 +119,8 @@ class Spotify:
         r = requests.put(url, data=data, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.save_tracks_user(ids)
         if r.status_code != C.RESPONSE_OK:
@@ -144,6 +151,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.check_users_saved_albums(ids)
         if r.status_code != C.RESPONSE_OK:
@@ -174,6 +183,8 @@ class Spotify:
         r = requests.put(url, data=data, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.save_albums_user(ids)
         if r.status_code != C.RESPONSE_CREATED:
@@ -208,6 +219,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_users_saved_tracks(limit, offset, market)
         if r.status_code != C.RESPONSE_OK:
@@ -238,6 +251,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.check_users_saved_tracks(ids)
         if r.status_code != C.RESPONSE_OK:
@@ -272,6 +287,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_users_saved_albums(limit, offset, market)
         if r.status_code != C.RESPONSE_OK:
@@ -303,6 +320,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_users_saved_shows(limit, offset)
         if r.status_code != C.RESPONSE_OK:
@@ -335,6 +354,8 @@ class Spotify:
         r = requests.delete(url, data=data, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.remove_shows_user(ids, market)
         if r.status_code != C.RESPONSE_OK:
@@ -365,6 +386,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.check_users_saved_shows(ids)
         if r.status_code != C.RESPONSE_OK:
@@ -395,6 +418,8 @@ class Spotify:
         r = requests.put(url, data=data, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.save_shows_user(ids)
         if r.status_code != C.RESPONSE_OK:
@@ -422,6 +447,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_a_show(id, market)
         if r.status_code != C.RESPONSE_OK:
@@ -451,6 +478,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_multiple_shows(ids, market)
         if r.status_code != C.RESPONSE_OK:
@@ -483,6 +512,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_a_shows_episodes(id, limit, offset, market)
         if r.status_code != C.RESPONSE_OK:
@@ -514,6 +545,8 @@ class Spotify:
         r = requests.put(url, data=data, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.replace_playlists_tracks(playlist_id, uris)
         if r.status_code != C.RESPONSE_CREATED:
@@ -543,6 +576,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_list_users_playlists(user_id, limit, offset)
         if r.status_code != C.RESPONSE_OK:
@@ -586,6 +621,8 @@ class Spotify:
         r = requests.put(url, data=data, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.change_playlist_details(playlist_id, name, public, collaborative, description)
         if r.status_code != C.RESPONSE_OK:
@@ -614,6 +651,8 @@ class Spotify:
         r = requests.put(url, files=files, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.upload_custom_playlist_cover(playlist_id, image_path)
         if r.status_code != C.RESPONSE_ACCEPTED:
@@ -651,6 +690,8 @@ class Spotify:
         r = requests.put(url, data=data, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.reorder_playlists_tracks(playlist_id, range_start, insert_before, range_length, snapshot_id)
         if r.status_code != C.RESPONSE_OK:
@@ -683,6 +724,8 @@ class Spotify:
         r = requests.post(url, data=data, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.add_tracks_to_playlist(playlist_id, uris, position)
         if r.status_code != C.RESPONSE_CREATED:
@@ -726,6 +769,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_playlist_tracks(playlist_id, fields, limit, offset, market, additional_types)
         if r.status_code != C.RESPONSE_OK:
@@ -749,6 +794,8 @@ class Spotify:
         r = requests.get(url, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_playlist_cover(playlist_id)
         if r.status_code != C.RESPONSE_OK:
@@ -781,6 +828,8 @@ class Spotify:
         r = requests.delete(url, data=data, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.remove_tracks_playlist(playlist_id, tracks, snapshot_id)
         if r.status_code != C.RESPONSE_OK:
@@ -810,6 +859,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_a_list_of_current_users_playlists(limit, offset)
         if r.status_code != C.RESPONSE_OK:
@@ -843,6 +894,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_playlist(playlist_id, fields, market, additional_types)
         if r.status_code != C.RESPONSE_OK:
@@ -881,6 +934,8 @@ class Spotify:
         r = requests.post(url, data=data, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.create_playlist(user_id, name, public, collaborative, description)
         if r not in (C.RESPONSE_OK, C.RESPONSE_CREATED):
@@ -910,6 +965,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_multiple_albums(ids, market)
         if r.status_code != C.RESPONSE_OK:
@@ -937,6 +994,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_an_album(id, market)
         if r.status_code != C.RESPONSE_OK:
@@ -969,6 +1028,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_an_albums_tracks(id, limit, offset, market)
         if r.status_code != C.RESPONSE_OK:
@@ -998,6 +1059,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_several_tracks(ids, market)
         if r.status_code != C.RESPONSE_OK:
@@ -1021,6 +1084,8 @@ class Spotify:
         r = requests.get(url, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_audio_analysis(id)
         if r.status_code != C.RESPONSE_OK:
@@ -1046,6 +1111,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_audio_features(id)
         if r.status_code != C.RESPONSE_OK:
@@ -1073,6 +1140,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_track(id, market)
         if r.status_code != C.RESPONSE_OK:
@@ -1100,6 +1169,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_several_audio_features(ids)
         if r.status_code != C.RESPONSE_OK:
@@ -1130,6 +1201,8 @@ class Spotify:
         r = requests.post(url, data=data, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.skip_users_playback_to_next_track(device_id)
         if r.status_code != C.RESPONSE_NO_CONTENT:
@@ -1162,6 +1235,8 @@ class Spotify:
         r = requests.put(url, data=data, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.set_repeat_mode_on_users_playback(state, device_id)
         if r.status_code != C.RESPONSE_NO_CONTENT:
@@ -1194,6 +1269,8 @@ class Spotify:
         r = requests.put(url, data=data, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.transfer_a_users_playback(device_ids, play)
         if r.status_code != C.RESPONSE_NO_CONTENT:
@@ -1229,6 +1306,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_the_users_currently_playing_track(market, additional_types)
         if r.status_code == C.RESPONSE_NO_CONTENT:
@@ -1264,6 +1343,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_information_about_the_users_current_playback(market, additional_types)
         if r.status_code != C.RESPONSE_OK:
@@ -1296,6 +1377,8 @@ class Spotify:
         r = requests.put(url, data=data, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.seek_to_position_in_currently_playing_track(position_ms, device_id)
         if r.status_code != C.RESPONSE_NO_CONTENT:
@@ -1326,6 +1409,8 @@ class Spotify:
         r = requests.post(url, data=data, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.skip_users_playback_to_previous_track(device_id)
         if r.status_code != C.RESPONSE_NO_CONTENT:
@@ -1373,6 +1458,8 @@ class Spotify:
         r = requests.put(url, params=params, data=data, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.start_a_users_playback(device_id, context_uri, uris, offset, position_ms)
         if r.status_code != C.RESPONSE_NO_CONTENT:
@@ -1403,6 +1490,8 @@ class Spotify:
         r = requests.put(url, data=data, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.pause_a_users_playback(device_id)
         if r.status_code != C.RESPONSE_NO_CONTENT:
@@ -1435,6 +1524,8 @@ class Spotify:
         r = requests.put(url, data=data, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.set_volume_for_users_playback(volume_percent, device_id)
         if r.status_code != C.RESPONSE_NO_CONTENT:
@@ -1469,6 +1560,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_recently_played(limit, after, before)
         if r.status_code != C.RESPONSE_NO_CONTENT:
@@ -1495,6 +1588,8 @@ class Spotify:
         r = requests.get(url, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_a_users_available_devices()
         if r.status_code != C.RESPONSE_OK:
@@ -1527,6 +1622,8 @@ class Spotify:
         r = requests.put(url, data=data, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.toggle_shuffle_for_users_playback(state, device_id)
         if r.status_code != C.RESPONSE_NO_CONTENT:
@@ -1559,6 +1656,8 @@ class Spotify:
         r = requests.post(url, data=data, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.add_to_queue(uri, device_id)
         if r.status_code != C.RESPONSE_NO_CONTENT:
@@ -1592,6 +1691,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_categories(country, locale, limit, offset)
         if r.status_code != C.RESPONSE_OK:
@@ -1621,6 +1722,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_a_category(category_id, country, locale)
         if r.status_code != C.RESPONSE_OK:
@@ -1652,6 +1755,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_a_categories_playlists(category_id, country, limit, offset)
         if r.status_code != C.RESPONSE_OK:
@@ -1698,6 +1803,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_recommendations(seed_artists, seed_genres, seed_tracks, limit, market, **kwargs)
         if r.status_code != C.RESPONSE_OK:
@@ -1721,6 +1828,8 @@ class Spotify:
         r = requests.get(url, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_recommendation_genres()
         if r.status_code != C.RESPONSE_OK:
@@ -1752,6 +1861,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_new_releases(country, limit, offset)
         if r.status_code != C.RESPONSE_OK:
@@ -1789,6 +1900,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_featured_playlists(country, locale, timestamp, limit, offset)
         if r.status_code != C.RESPONSE_OK:
@@ -1812,6 +1925,8 @@ class Spotify:
         r = requests.get(url, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.endpoint_get_users_profile(user_id)
         if r.status_code != C.RESPONSE_OK:
@@ -1834,6 +1949,8 @@ class Spotify:
 
         r = requests.get(url, headers=headers)
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_current_users_profile()
         if r.status_code != C.RESPONSE_OK:
@@ -1865,6 +1982,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.check_current_user_follows(type, ids)
         if r.status_code != C.RESPONSE_OK:
@@ -1892,6 +2011,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.check_if_user_follows_playlist(playlist_id, ids)
         if r.status_code != C.RESPONSE_OK:
@@ -1923,6 +2044,8 @@ class Spotify:
         r = requests.put(url, data=data, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.follow_artists_users(type, ids)
         if r.status_code != C.RESPONSE_NO_CONTENT:
@@ -1953,6 +2076,8 @@ class Spotify:
         r = requests.put(url, data=data, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.follow_playlist(playlist_id, public)
         if r.status_code != C.RESPONSE_OK:
@@ -1987,6 +2112,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_followed(type, limit, after)
         if r.status_code != C.RESPONSE_OK:
@@ -2018,6 +2145,8 @@ class Spotify:
         r = requests.delete(url, data=data, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.unfollow_artists_users(type, ids)
         if r.status_code != C.RESPONSE_NO_CONTENT:
@@ -2044,6 +2173,8 @@ class Spotify:
         r = requests.delete(url, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.unfollow_playlist(playlist_id)
         if r.status_code != C.RESPONSE_OK:
@@ -2071,6 +2202,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_multiple_artists(ids)
         if r.status_code != C.RESPONSE_OK:
@@ -2094,6 +2227,8 @@ class Spotify:
         r = requests.get(url, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_an_artist(id)
         if r.status_code != C.RESPONSE_OK:
@@ -2130,6 +2265,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_an_artists_albums(id, include_groups, market, limit, offset)
         if r.status_code != C.RESPONSE_OK:
@@ -2157,6 +2294,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_an_artists_top_tracks(id, market)
         if r.status_code != C.RESPONSE_OK:
@@ -2181,6 +2320,8 @@ class Spotify:
         r = requests.get(url, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
         if r.status_code != C.RESPONSE_OK:
             return self.get_an_artists_related_artists(id)
@@ -2220,6 +2361,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.search(q, type, market, limit, offset, include_external)
         if r.status_code != C.RESPONSE_OK:
@@ -2247,6 +2390,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_an_episode(id, market)
         if r.status_code != C.RESPONSE_OK:
@@ -2276,6 +2421,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_multiple_episodes(ids, market)
         if r.status_code != C.RESPONSE_OK:
@@ -2312,6 +2459,8 @@ class Spotify:
         r = requests.get(url, params=params, headers=headers)
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
+            if not self._auto_refresh:
+                return None
             self._oauth.refresh_token()
             return self.get_users_top_artists_and_tracks(type, limit, offset, time_range)
         if r.status_code != C.RESPONSE_OK:
