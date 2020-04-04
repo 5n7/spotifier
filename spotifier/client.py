@@ -513,11 +513,6 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-list-users-playlists
         """
-        if not self._oauth.is_scopes_subset(
-            self._oauth.scopes, [S.PLAYLIST_READ_PRIVATE]
-        ) or self._oauth.is_scopes_subset(self._oauth.scopes, [S.PLAYLIST_READ_COLLABORATIVE]):
-            raise SpotifyScopeError
-
         url = f"https://api.spotify.com/v1/users/{user_id}/playlists"
 
         params: AnyDict = {}
@@ -777,11 +772,6 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-a-list-of-current-users-playlists
         """
-        if not self._oauth.is_scopes_subset(
-            self._oauth.scopes, [S.PLAYLIST_READ_PRIVATE]
-        ) or self._oauth.is_scopes_subset(self._oauth.scopes, [S.PLAYLIST_READ_COLLABORATIVE]):
-            raise SpotifyScopeError
-
         url = "https://api.spotify.com/v1/me/playlists"
 
         params: AnyDict = {}
@@ -1181,9 +1171,10 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-the-users-currently-playing-track
         """
-        if not self._oauth.is_scopes_subset(
-            self._oauth.scopes, [S.USER_READ_CURRENTLY_PLAYING]
-        ) or self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_READ_PLAYBACK_STATE]):
+        if not (
+            self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_READ_CURRENTLY_PLAYING])
+            or self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_READ_PLAYBACK_STATE])
+        ):
             raise SpotifyScopeError
 
         url = "https://api.spotify.com/v1/me/player/currently-playing"
