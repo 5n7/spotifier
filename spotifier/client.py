@@ -1194,6 +1194,8 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+        if r.status_code == C.RESPONSE_NO_CONTENT:
+            return None
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
