@@ -240,7 +240,7 @@ class Spotify:
 
         return r.json()
 
-    def get_users_saved_albums(self, limit: int = None, offset: int = None, market: str = "from_token"):
+    def get_users_saved_albums(self, limit: int = None, offset: int = None, market: str = None):
         """Get a list of the albums saved in the current Spotify user's 'Your Music' library.
 
         Reference:
@@ -640,7 +640,7 @@ class Spotify:
 
         return r.json()
 
-    def add_tracks_to_playlist(self, playlist_id: str, uri: str = None, position: int = None):
+    def add_tracks_to_playlist(self, playlist_id: str, uris: List[str] = None, position: int = None):
         """Add one or more tracks to a user's playlist.
 
         Reference:
@@ -652,8 +652,8 @@ class Spotify:
         url = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
 
         data: AnyDict = {}
-        if uri is not None:
-            data["uri"] = uri
+        if uris is not None:
+            data["uri"] = ",".join(uris)
         if position is not None:
             data["position"] = position
 
@@ -1898,7 +1898,7 @@ class Spotify:
 
         return r.json()
 
-    def get_followed(self, type: str, limit: str = None, after: str = None):
+    def get_followed(self, type: str, limit: int = None, after: str = None):
         """Get the current user's followed artists.
 
         Reference:
@@ -2210,7 +2210,9 @@ class Spotify:
 
         return r.json()
 
-    def get_users_top_artists_and_tracks(self, type: str, offset: int = None, time_range: str = None):
+    def get_users_top_artists_and_tracks(
+        self, type: str, limit: int = None, offset: int = None, time_range: str = None
+    ):
         """Get the current user's top artists or tracks based on calculated affinity.
 
         Reference:
@@ -2222,6 +2224,8 @@ class Spotify:
         url = f"https://api.spotify.com/v1/me/top/{type}"
 
         params: AnyDict = {}
+        if limit is not None:
+            params["limit"] = limit
         if offset is not None:
             params["offset"] = offset
         if time_range is not None:
