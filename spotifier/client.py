@@ -31,8 +31,6 @@ class Spotify:
         if self._oauth.token is None:
             raise ValueError("Authenticate first.")
 
-        self._access_token = self._oauth.token["access_token"]
-
     def remove_albums_user(self, ids: List[str]):
         """Remove one or more albums from the current user's 'Your Music' library.
 
@@ -49,7 +47,7 @@ class Spotify:
         }
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -57,6 +55,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.remove_albums_user(ids)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -78,7 +77,7 @@ class Spotify:
         }
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -86,6 +85,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.remove_tracks_user(ids)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -107,7 +107,7 @@ class Spotify:
         }
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -115,6 +115,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.save_tracks_user(ids)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -136,7 +137,7 @@ class Spotify:
         }
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -144,6 +145,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.check_users_saved_albums(ids)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -165,7 +167,7 @@ class Spotify:
         }
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -173,6 +175,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.save_albums_user(ids)
         if r.status_code != C.RESPONSE_CREATED:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -198,7 +201,7 @@ class Spotify:
             params["market"] = market
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -206,6 +209,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_users_saved_tracks(limit, offset, market)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -227,7 +231,7 @@ class Spotify:
         }
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -235,6 +239,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.check_users_saved_tracks(ids)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -260,7 +265,7 @@ class Spotify:
             params["market"] = market
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -268,6 +273,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_users_saved_albums(limit, offset, market)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -290,7 +296,7 @@ class Spotify:
             "offset": offset,
         }
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -298,6 +304,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_users_saved_shows(limit, offset)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -321,7 +328,7 @@ class Spotify:
             data["market"] = market
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -329,6 +336,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.remove_shows_user(ids, market)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -350,7 +358,7 @@ class Spotify:
         }
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -358,6 +366,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.check_users_saved_shows(ids)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -379,7 +388,7 @@ class Spotify:
         }
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -387,6 +396,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.save_shows_user(ids)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -405,7 +415,7 @@ class Spotify:
             params["market"] = market
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -413,6 +423,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_a_show(id, market)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -433,7 +444,7 @@ class Spotify:
             params["market"] = market
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -441,6 +452,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_multiple_shows(ids, market)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -464,7 +476,7 @@ class Spotify:
             params["market"] = market
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -472,6 +484,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_a_shows_episodes(id, limit, offset, market)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -494,7 +507,7 @@ class Spotify:
             data["uris"] = ",".join(uris)
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -502,6 +515,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.replace_playlists_tracks(playlist_id, uris)
         if r.status_code != C.RESPONSE_CREATED:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -522,7 +536,7 @@ class Spotify:
             params["offset"] = offset
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -530,6 +544,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_list_users_playlists(user_id, limit, offset)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -564,7 +579,7 @@ class Spotify:
             data["description"] = description
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -572,6 +587,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.change_playlist_details(playlist_id, name, public, collaborative, description)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -591,7 +607,7 @@ class Spotify:
         files = {"file": open(image_path, "rb")}
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "image/jpeg",
         }
 
@@ -599,6 +615,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.upload_custom_playlist_cover(playlist_id, image_path)
         if r.status_code != C.RESPONSE_ACCEPTED:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -627,7 +644,7 @@ class Spotify:
             data["snapshot_id"] = snapshot_id
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -635,6 +652,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.reorder_playlists_tracks(playlist_id, range_start, insert_before, range_length, snapshot_id)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -658,7 +676,7 @@ class Spotify:
             data["position"] = position
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -666,6 +684,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.add_tracks_to_playlist(playlist_id, uris, position)
         if r.status_code != C.RESPONSE_CREATED:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -700,7 +719,7 @@ class Spotify:
             params["additional_types"] = ",".join(additional_types)
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -708,6 +727,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_playlist_tracks(playlist_id, fields, limit, offset, market, additional_types)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -722,7 +742,7 @@ class Spotify:
         url = f"https://api.spotify.com/v1/playlists/{playlist_id}/images"
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -730,6 +750,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_playlist_cover(playlist_id)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -753,7 +774,7 @@ class Spotify:
             data["snaphot_id"] = snapshot_id
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -761,6 +782,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.remove_tracks_playlist(playlist_id, tracks, snapshot_id)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -781,7 +803,7 @@ class Spotify:
             params["offset"] = offset
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -789,6 +811,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_a_list_of_current_users_playlists(limit, offset)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -813,7 +836,7 @@ class Spotify:
             params["additional_types"] = ",".join(additional_types)
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -821,6 +844,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_playlist(playlist_id, fields, market, additional_types)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -850,7 +874,7 @@ class Spotify:
             data["description"] = description
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -858,6 +882,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.create_playlist(user_id, name, public, collaborative, description)
         if r not in (C.RESPONSE_OK, C.RESPONSE_CREATED):
             raise SpotifyResponseError(r.json()["message"])
 
@@ -878,7 +903,7 @@ class Spotify:
             params["market"] = market
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -886,6 +911,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_multiple_albums(ids, market)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -904,7 +930,7 @@ class Spotify:
             params["market"] = market
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -912,6 +938,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_an_album(id, market)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -935,7 +962,7 @@ class Spotify:
             params["market"] = market
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -943,6 +970,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_an_albums_tracks(id, limit, offset, market)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -963,7 +991,7 @@ class Spotify:
             params["market"] = market
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -971,6 +999,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_several_tracks(ids, market)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -985,7 +1014,7 @@ class Spotify:
         url = f"https://api.spotify.com/v1/audio-analysis/{id}"
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -993,6 +1022,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_audio_analysis(id)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1009,7 +1039,7 @@ class Spotify:
         params: AnyDict = {}
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1017,6 +1047,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_audio_features(id)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1035,7 +1066,7 @@ class Spotify:
             params["market"] = market
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1043,6 +1074,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_track(id, market)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1061,7 +1093,7 @@ class Spotify:
         }
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1069,6 +1101,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_several_audio_features(ids)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1090,7 +1123,7 @@ class Spotify:
             data["device_id"] = device_id
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1098,6 +1131,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.skip_users_playback_to_next_track(device_id)
         if r.status_code != C.RESPONSE_NO_CONTENT:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1121,7 +1155,7 @@ class Spotify:
             data["device_id"] = device_id
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1129,6 +1163,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.set_repeat_mode_on_users_playback(state, device_id)
         if r.status_code != C.RESPONSE_NO_CONTENT:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1152,7 +1187,7 @@ class Spotify:
             data["play"] = play
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1160,6 +1195,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.transfer_a_users_playback(device_ids, play)
         if r.status_code != C.RESPONSE_NO_CONTENT:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1186,7 +1222,7 @@ class Spotify:
             params["additional_types"] = ",".join(additional_types)
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1194,6 +1230,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_the_users_currently_playing_track(market, additional_types)
         if r.status_code == C.RESPONSE_NO_CONTENT:
             return None
         if r.status_code != C.RESPONSE_OK:
@@ -1220,7 +1257,7 @@ class Spotify:
             params["additional_types"] = additional_types
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1228,6 +1265,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_information_about_the_users_current_playback(market, additional_types)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1251,7 +1289,7 @@ class Spotify:
             data["device_id"] = device_id
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1259,6 +1297,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.seek_to_position_in_currently_playing_track(position_ms, device_id)
         if r.status_code != C.RESPONSE_NO_CONTENT:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1280,7 +1319,7 @@ class Spotify:
             data["device_id"] = device_id
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1288,6 +1327,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.skip_users_playback_to_previous_track(device_id)
         if r.status_code != C.RESPONSE_NO_CONTENT:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1326,7 +1366,7 @@ class Spotify:
             data["position_ms"] = position_ms
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1334,6 +1374,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.start_a_users_playback(device_id, context_uri, uris, offset, position_ms)
         if r.status_code != C.RESPONSE_NO_CONTENT:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1355,7 +1396,7 @@ class Spotify:
             data["device_id"] = device_id
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1363,6 +1404,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.pause_a_users_playback(device_id)
         if r.status_code != C.RESPONSE_NO_CONTENT:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1386,7 +1428,7 @@ class Spotify:
             data["device_id"] = device_id
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1394,6 +1436,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.set_volume_for_users_playback(volume_percent, device_id)
         if r.status_code != C.RESPONSE_NO_CONTENT:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1419,7 +1462,7 @@ class Spotify:
             params["before"] = before
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1427,6 +1470,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_recently_played(limit, after, before)
         if r.status_code != C.RESPONSE_NO_CONTENT:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1444,7 +1488,7 @@ class Spotify:
         url = "https://api.spotify.com/v1/me/player/devices"
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1452,6 +1496,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_a_users_available_devices()
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1475,7 +1520,7 @@ class Spotify:
             data["device_id"] = device_id
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1483,6 +1528,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.toggle_shuffle_for_users_playback(state, device_id)
         if r.status_code != C.RESPONSE_NO_CONTENT:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1506,7 +1552,7 @@ class Spotify:
             data["device_id"] = device_id
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1514,6 +1560,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.add_to_queue(uri, device_id)
         if r.status_code != C.RESPONSE_NO_CONTENT:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1538,7 +1585,7 @@ class Spotify:
             params["offset"] = offset
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1546,6 +1593,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_categories(country, locale, limit, offset)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1566,7 +1614,7 @@ class Spotify:
             params["locale"] = locale
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1574,6 +1622,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_a_category(category_id, country, locale)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1596,7 +1645,7 @@ class Spotify:
             params["offset"] = offset
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1604,6 +1653,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_a_categories_playlists(category_id, country, limit, offset)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1641,7 +1691,7 @@ class Spotify:
             params.update(kwargs)
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1649,6 +1699,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_recommendations(seed_artists, seed_genres, seed_tracks, limit, market, **kwargs)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1663,7 +1714,7 @@ class Spotify:
         url = "https://api.spotify.com/v1/recommendations/available-genre-seeds"
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1671,6 +1722,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_recommendation_genres()
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1693,7 +1745,7 @@ class Spotify:
             params["offset"] = offset
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1701,6 +1753,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_new_releases(country, limit, offset)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1729,7 +1782,7 @@ class Spotify:
             params["offset"] = offset
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1737,6 +1790,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_featured_playlists(country, locale, timestamp, limit, offset)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1751,7 +1805,7 @@ class Spotify:
         url = f"https://api.spotify.com/v1/users/{user_id}"
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1759,6 +1813,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.endpoint_get_users_profile(user_id)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1773,13 +1828,14 @@ class Spotify:
         url = "https://api.spotify.com/v1/me"
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
         r = requests.get(url, headers=headers)
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_current_users_profile()
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1802,7 +1858,7 @@ class Spotify:
         }
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1810,6 +1866,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.check_current_user_follows(type, ids)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1828,7 +1885,7 @@ class Spotify:
             params["ids"] = ",".join(ids)
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1836,6 +1893,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.check_if_user_follows_playlist(playlist_id, ids)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1858,7 +1916,7 @@ class Spotify:
         }
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1866,6 +1924,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.follow_artists_users(type, ids)
         if r.status_code != C.RESPONSE_NO_CONTENT:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1887,7 +1946,7 @@ class Spotify:
             data["public"] = public
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1895,6 +1954,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.follow_playlist(playlist_id, public)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1920,7 +1980,7 @@ class Spotify:
             params["after"] = after
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1928,6 +1988,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_followed(type, limit, after)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1950,7 +2011,7 @@ class Spotify:
         }
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1958,6 +2019,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.unfollow_artists_users(type, ids)
         if r.status_code != C.RESPONSE_NO_CONTENT:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -1975,7 +2037,7 @@ class Spotify:
         url = f"https://api.spotify.com/v1/playlists/{playlist_id}/followers"
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -1983,6 +2045,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.unfollow_playlist(playlist_id)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -2001,7 +2064,7 @@ class Spotify:
         }
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -2009,6 +2072,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_multiple_artists(ids)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -2023,7 +2087,7 @@ class Spotify:
         url = f"https://api.spotify.com/v1/artists/{id}"
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -2031,6 +2095,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_an_artist(id)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -2058,7 +2123,7 @@ class Spotify:
             params["offset"] = offset
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -2066,6 +2131,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_an_artists_albums(id, include_groups, market, limit, offset)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -2084,7 +2150,7 @@ class Spotify:
         }
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -2092,6 +2158,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_an_artists_top_tracks(id, market)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -2107,7 +2174,7 @@ class Spotify:
         url = f"https://api.spotify.com/v1/artists/{id}/related-artists"
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -2116,6 +2183,7 @@ class Spotify:
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
         if r.status_code != C.RESPONSE_OK:
+            return self.get_an_artists_related_artists(id)
             raise SpotifyResponseError(r.json()["message"])
 
         return r.json()
@@ -2145,7 +2213,7 @@ class Spotify:
             params["include_external"] = include_external
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -2153,6 +2221,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.search(q, type, market, limit, offset, include_external)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -2171,7 +2240,7 @@ class Spotify:
             params["market"] = market
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -2179,6 +2248,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_an_episode(id, market)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -2199,7 +2269,7 @@ class Spotify:
             params["market"] = market
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -2207,6 +2277,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_multiple_episodes(ids, market)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
@@ -2234,7 +2305,7 @@ class Spotify:
             params["time_range"] = time_range
 
         headers = {
-            "Authorization": f"Bearer {self._access_token}",
+            "Authorization": f"Bearer {self._oauth.token['access_token']}",  # type: ignore
             "Content-Type": "application/json",
         }
 
@@ -2242,6 +2313,7 @@ class Spotify:
 
         if r.status_code == C.RESPONSE_UNAUTHORIZED:
             self._oauth.refresh_token()
+            return self.get_users_top_artists_and_tracks(type, limit, offset, time_range)
         if r.status_code != C.RESPONSE_OK:
             raise SpotifyResponseError(r.json()["message"])
 
