@@ -15,6 +15,10 @@ from spotifier.oauth import SpotifyAuthorizationCode, SpotifyScopeError
 AnyDict = Dict[str, Any]
 
 
+class SpotifyClientError(Exception):
+    pass
+
+
 class SpotifyResponseError(Exception):
     pass
 
@@ -38,6 +42,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-remove-albums-user
         """
+        if 50 < len(ids):
+            raise SpotifyClientError
+
         if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_LIBRARY_MODIFY]):
             raise SpotifyScopeError
 
@@ -70,6 +77,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-remove-tracks-user
         """
+        if 50 < len(ids):
+            raise SpotifyClientError
+
         if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_LIBRARY_MODIFY]):
             raise SpotifyScopeError
 
@@ -102,6 +112,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-save-tracks-user
         """
+        if 50 < len(ids):
+            raise SpotifyClientError
+
         if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_LIBRARY_MODIFY]):
             raise SpotifyScopeError
 
@@ -166,6 +179,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-save-albums-user
         """
+        if 50 < len(ids):
+            raise SpotifyClientError
+
         if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_LIBRARY_MODIFY]):
             raise SpotifyScopeError
 
@@ -198,6 +214,11 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-users-saved-tracks
         """
+        if limit is not None and not (1 <= limit <= 50):
+            raise SpotifyClientError
+        if offset is not None and offset < 0:
+            raise SpotifyClientError
+
         if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_LIBRARY_READ]):
             raise SpotifyScopeError
 
@@ -234,6 +255,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-check-users-saved-tracks
         """
+        if 50 < len(ids):
+            raise SpotifyClientError
+
         if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_LIBRARY_READ]):
             raise SpotifyScopeError
 
@@ -266,6 +290,11 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-users-saved-albums
         """
+        if limit is not None and not (1 <= limit <= 50):
+            raise SpotifyClientError
+        if offset is not None and offset < 0:
+            raise SpotifyClientError
+
         if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_LIBRARY_READ]):
             raise SpotifyScopeError
 
@@ -303,6 +332,11 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-users-saved-shows
         """
+        if limit is not None and not (1 <= limit <= 50):
+            raise SpotifyClientError
+        if offset is not None and offset < 0:
+            raise SpotifyClientError
+
         if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_LIBRARY_READ]):
             raise SpotifyScopeError
 
@@ -369,6 +403,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-check-users-saved-shows
         """
+        if 50 < len(ids):
+            raise SpotifyClientError
+
         if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_LIBRARY_READ]):
             raise SpotifyScopeError
 
@@ -462,6 +499,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-multiple-shows
         """
+        if 50 < len(ids):
+            raise SpotifyClientError
+
         url = "https://api.spotify.com/v1/shows"
 
         params: AnyDict = {
@@ -494,6 +534,11 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-a-shows-episodes
         """
+        if limit is not None and not (1 <= limit <= 50):
+            raise SpotifyClientError
+        if offset is not None and offset < 0:
+            raise SpotifyClientError
+
         url = f"https://api.spotify.com/v1/shows/{id}/episodes"
 
         params: AnyDict = {}
@@ -528,6 +573,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-replace-playlists-tracks
         """
+        if 100 < len(uris):
+            raise SpotifyClientError
+
         if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.PLAYLIST_MODIFY_PUBLIC]):
             raise SpotifyScopeError
 
@@ -560,6 +608,11 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-list-users-playlists
         """
+        if limit is not None and not (1 <= limit <= 50):
+            raise SpotifyClientError
+        if offset is not None and not (0 <= offset <= 100000):
+            raise SpotifyClientError
+
         url = f"https://api.spotify.com/v1/users/{user_id}/playlists"
 
         params: AnyDict = {}
@@ -705,6 +758,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-add-tracks-to-playlist
         """
+        if uris is not None and 100 < len(uris):
+            raise SpotifyClientError
+
         if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.PLAYLIST_MODIFY_PUBLIC]):
             raise SpotifyScopeError
 
@@ -747,6 +803,11 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-playlists-tracks
         """
+        if limit is not None and not (1 <= limit <= 100):
+            raise SpotifyClientError
+        if offset is not None and offset < 0:
+            raise SpotifyClientError
+
         url = f"https://api.spotify.com/v1/playlists/{playlist_id}/tracks"
 
         params: AnyDict = {}
@@ -809,6 +870,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-remove-tracks-playlist
         """
+        if 100 < len(tracks):
+            raise SpotifyClientError
+
         if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.PLAYLIST_MODIFY_PUBLIC]):
             raise SpotifyScopeError
 
@@ -843,6 +907,11 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-a-list-of-current-users-playlists
         """
+        if limit is not None and not (1 <= limit <= 50):
+            raise SpotifyClientError
+        if offset is not None and not (0 <= offset <= 100000):
+            raise SpotifyClientError
+
         url = "https://api.spotify.com/v1/me/playlists"
 
         params: AnyDict = {}
@@ -949,6 +1018,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-multiple-albums
         """
+        if 20 < len(ids):
+            raise SpotifyClientError
+
         url = "https://api.spotify.com/v1/albums"
 
         params: AnyDict = {
@@ -1010,6 +1082,11 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-an-albums-tracks
         """
+        if limit is not None and not (1 <= limit <= 50):
+            raise SpotifyClientError
+        if offset is not None and offset < 0:
+            raise SpotifyClientError
+
         url = f"https://api.spotify.com/v1/albums/{id}/tracks"
 
         params: AnyDict = {}
@@ -1043,6 +1120,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-several-tracks
         """
+        if 50 < len(ids):
+            raise SpotifyClientError
+
         url = "https://api.spotify.com/v1/tracks"
 
         params: AnyDict = {
@@ -1155,6 +1235,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-several-audio-features
         """
+        if 100 < len(ids):
+            raise SpotifyClientError
+
         url = "https://api.spotify.com/v1/audio-features"
 
         params: AnyDict = {
@@ -1216,6 +1299,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-set-repeat-mode-on-users-playback
         """
+        if state not in ("track", "context", "off"):
+            raise SpotifyClientError
+
         if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_MODIFY_PLAYBACK_STATE]):
             raise SpotifyScopeError
 
@@ -1358,6 +1444,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-seek-to-position-in-currently-playing-track
         """
+        if position_ms < 0:
+            raise SpotifyClientError
+
         if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_MODIFY_PLAYBACK_STATE]):
             raise SpotifyScopeError
 
@@ -1505,6 +1594,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-set-volume-for-users-playback
         """
+        if not (0 <= volume_percent <= 100):
+            raise SpotifyClientError
+
         if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_MODIFY_PLAYBACK_STATE]):
             raise SpotifyScopeError
 
@@ -1539,6 +1631,11 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-recently-played
         """
+        if limit is not None and not (1 <= limit <= 50):
+            raise SpotifyClientError
+        if after is not None and before is not None:
+            raise SpotifyClientError
+
         if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_READ_RECENTLY_PLAYED]):
             raise SpotifyScopeError
 
@@ -1671,6 +1768,11 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-categories
         """
+        if limit is not None and not (1 <= limit <= 50):
+            raise SpotifyClientError
+        if offset is not None and offset < 0:
+            raise SpotifyClientError
+
         url = "https://api.spotify.com/v1/browse/categories"
 
         params: AnyDict = {}
@@ -1737,6 +1839,11 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-a-categories-playlists
         """
+        if limit is not None and not (1 <= limit <= 50):
+            raise SpotifyClientError
+        if offset is not None and offset < 0:
+            raise SpotifyClientError
+
         url = f"https://api.spotify.com/v1/browse/categories/{category_id}/playlists"
 
         params: AnyDict = {}
@@ -1780,6 +1887,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-recommendations
         """
+        if limit is not None and not (1 <= limit <= 100):
+            raise SpotifyClientError
+
         url = "https://api.spotify.com/v1/recommendations"
 
         params: AnyDict = {
@@ -1843,6 +1953,11 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-new-releases
         """
+        if limit is not None and not (1 <= limit <= 50):
+            raise SpotifyClientError
+        if offset is not None and offset < 0:
+            raise SpotifyClientError
+
         url = "https://api.spotify.com/v1/browse/new-releases"
 
         params: AnyDict = {}
@@ -1878,6 +1993,11 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-featured-playlists
         """
+        if limit is not None and not (1 <= limit <= 50):
+            raise SpotifyClientError
+        if offset is not None and offset < 0:
+            raise SpotifyClientError
+
         url = f""
 
         params: AnyDict = {}
@@ -1964,6 +2084,11 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-check-current-user-follows
         """
+        if type not in ("artist", "user"):
+            raise SpotifyClientError
+        if 50 < len(ids):
+            raise SpotifyClientError
+
         if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_FOLLOW_READ]):
             raise SpotifyScopeError
 
@@ -1997,6 +2122,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-check-if-user-follows-playlist
         """
+        if 5 < len(ids):
+            raise SpotifyClientError
+
         url = f"https://api.spotify.com/v1/playlists/{playlist_id}/followers/contains"
 
         params: AnyDict = {}
@@ -2026,6 +2154,11 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-follow-artists-users
         """
+        if type not in ("artist", "user"):
+            raise SpotifyClientError
+        if 50 < len(ids):
+            raise SpotifyClientError
+
         if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_FOLLOW_MODIFY]):
             raise SpotifyScopeError
 
@@ -2091,6 +2224,11 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-followed
         """
+        if type not in ("artist"):
+            raise SpotifyClientError
+        if limit is not None and not (1 <= limit <= 50):
+            raise SpotifyClientError
+
         if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_FOLLOW_MODIFY, S.USER_FOLLOW_READ]):
             raise SpotifyScopeError
 
@@ -2127,6 +2265,11 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-unfollow-artists-users
         """
+        if type not in ("artist", "user"):
+            raise SpotifyClientError
+        if 50 < len(ids):
+            raise SpotifyClientError
+
         if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_FOLLOW_MODIFY]):
             raise SpotifyScopeError
 
@@ -2188,6 +2331,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-multiple-artists
         """
+        if 50 < len(ids):
+            raise SpotifyClientError
+
         url = "https://api.spotify.com/v1/artists"
 
         params: AnyDict = {
@@ -2245,6 +2391,11 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-an-artists-albums
         """
+        if limit is not None and not (1 <= limit <= 50):
+            raise SpotifyClientError
+        if offset is not None and offset < 0:
+            raise SpotifyClientError
+
         url = f"https://api.spotify.com/v1/artists/{id}/albums"
 
         params: AnyDict = {}
@@ -2338,6 +2489,13 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-search
         """
+        if limit is not None and not (1 <= limit <= 50):
+            raise SpotifyClientError
+        if offset is not None and not (0 <= offset <= 2000):
+            raise SpotifyClientError
+        if include_external is not None and include_external not in ("audio"):
+            raise SpotifyClientError
+
         url = "https://api.spotify.com/v1/search"
 
         params: AnyDict = {
@@ -2405,6 +2563,9 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-multiple-episodes
         """
+        if 50 < len(ids):
+            raise SpotifyClientError
+
         url = f"https://api.spotify.com/v1/episodes"
 
         params: AnyDict = {
@@ -2438,6 +2599,15 @@ class Spotify:
         Reference:
             https://developer.spotify.com/documentation/web-api/reference-beta/#endpoint-get-users-top-artists-and-tracks
         """
+        if type not in ("artists", "tracks"):
+            raise SpotifyClientError
+        if limit is not None and not (1 <= limit <= 50):
+            raise SpotifyClientError
+        if offset is not None and offset < 0:
+            raise SpotifyClientError
+        if time_range is not None and time_range not in ("long_term", "medium_term", "short_term"):
+            raise SpotifyClientError
+
         if not self._oauth.is_scopes_subset(self._oauth.scopes, [S.USER_TOP_READ]):
             raise SpotifyScopeError
 
