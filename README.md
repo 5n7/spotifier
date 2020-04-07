@@ -2,6 +2,10 @@
 
 :notes: A Spotify Web API Library for Modern Python
 
+## Notice
+
+I do not recommend using this package as it is not yet ready for use.
+
 ## Feature
 
 - All functions supports type hint (Up to the level of TypedDict!)
@@ -12,8 +16,6 @@
 ```sh
 pip install git+https://github.com/skmatz/spotifier.git
 ```
-
-I will release this library to PyPI when it is fully functional!
 
 ## Quick Start
 
