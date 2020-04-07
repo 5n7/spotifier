@@ -1,5 +1,11 @@
 # Spotifier
 
+[![pypi](https://img.shields.io/pypi/v/spotifier)](https://pypi.org/project/spotifier)
+[![build](https://img.shields.io/github/workflow/status/skmatz/spotifier/build)](https://github.com/skmatz/spotifier/actions?query=workflow%3Abuild)
+[![release](https://img.shields.io/github/workflow/status/skmatz/spotifier/release?label=release)](https://github.com/skmatz/spotifier/actions?query=workflow%3Arelease)
+[![python version](https://img.shields.io/pypi/pyversions/spotifier)](https://pypi.org/project/spotifier)
+[![license](https://img.shields.io/github/license/skmatz/spotifier)](./LICENSE)
+
 :notes: A Spotify Web API Library for Modern Python
 
 ## Notice
@@ -12,6 +18,14 @@ I do not recommend using this package as it is not yet ready for use.
 - Reproduce API documentation with code as much as possible (You can handle errors w/o wasting requests!)
 
 ## Install
+
+### PyPI
+
+```sh
+pip install spotifier
+```
+
+### Source
 
 ```sh
 pip install git+https://github.com/skmatz/spotifier.git
